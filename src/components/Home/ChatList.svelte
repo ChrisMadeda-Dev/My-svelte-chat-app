@@ -13,7 +13,6 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        gap: 8px;
         overflow-y: auto;
         overflow-x: hidden;
         padding: 10px;
