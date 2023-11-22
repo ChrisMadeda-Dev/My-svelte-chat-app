@@ -1,28 +1,65 @@
 <script>
-	import {auth} from "../../lib/firabase/firebase"
-	import { createUserWithEmailAndPassword } from 'firebase/auth';
-    import {getAuth} from "firebase/auth" ;
+	import { auth, db } from '../../lib/firabase/firebase';
+	import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+	import { doc, addDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
-    //let auth = getAuth(app);
+	//Check is user is logged in
+
+	onAuthStateChanged(auth, (authUser) => {
+		if (authUser.user) {
+			//window.location.href = '/home';
+		}
+	});
 
 	let name;
 	let email;
-	let password;
-	let confirmPassword;
+	let phone;
+	let confirmPhone;
+	let pin;
+	let confirmPin;
 
 	function addNewUser() {
-		if (name && email && password == confirmPassword) {
-			createUserWithEmailAndPassword(auth, email, password).then((userDet)=>{
-                console.log(userDet.user)
-                localStorage.setItem("u-name",name)
+		if (name && email && pin == confirmPin && phone == confirmPhone) {
+			createUserWithEmailAndPassword(auth, email, pin)
+				.then((userDet) => {
+					localStorage.setItem('u-name', name);
 
-                name="";
-                email="";
-                password="";
-                confirmPassword="";
-                window.location.href="/home"
-            })
-			alert('Welcome to MychatAPP');
+					//set variables
+					const pinDb = parseInt(pin) + 109999011099;
+					const phoneDb = phone + 990110999901;
+
+					//Firestore
+					const userRef = doc(db, `users/${userDet.user.uid}`);
+
+					const detOut = {
+						name: name,
+						uid: userDet.user.uid,
+						pin: pinDb,
+						phone: phoneDb,
+						createdAt: serverTimestamp()
+					};
+
+					setDoc(userRef, detOut)
+						.then((snap) => {
+							name = '';
+							email = '';
+							phone = '';
+							confirmPhone = '';
+							pin = '';
+							confirmPin = '';
+
+							alert('Welcome to Mychatapp');
+							window.location.href = '/home';
+						})
+						.catch((e) => {
+							alert(e);
+						});
+				})
+				.catch((e) => {
+					alert(e);
+				});
+		}else{
+			alert("Error : Check inputs")
 		}
 	}
 </script>
@@ -31,9 +68,11 @@
 	<div class="auth-center">
 		<input type="text" placeholder="Enter Name" bind:value={name} />
 		<input type="text" placeholder="Enter Email" bind:value={email} />
-		<input type="password" placeholder="Enter Password" bind:value={password} />
-		<input type="password" placeholder="Confirm Password" bind:value={confirmPassword} />
-		<button class="singUp-btn" on:click={addNewUser}>Sing up</button>
+		<input type="number" placeholder="Enter Phone No." bind:value={phone} />
+		<input type="number" placeholder="Confirm Phone No." bind:value={confirmPhone} />
+		<input type="number" placeholder="Enter Pin" bind:value={pin} />
+		<input type="number" placeholder="Confirm Pin" bind:value={confirmPin} />
+		<button class="singUp-btn" on:click={addNewUser}>SignUp</button>
 	</div>
 </div>
 
@@ -70,7 +109,7 @@
 		height: 50px;
 		background-color: brown;
 		border-radius: 5px;
-		margin: 10px 0px;
+		margin: 15px 0px;
 		font-size: 17px;
 		color: white;
 	}

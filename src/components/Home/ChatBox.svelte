@@ -1,5 +1,6 @@
 <script>
-	import ChatBoxNav from './ChatBoxNav.svelte';
+	import ChatBoxBottom from './ChatBoxBottom.svelte';
+import ChatBoxNav from './ChatBoxNav.svelte';
 	import ChatList from './ChatList.svelte';
 </script>
 
@@ -10,7 +11,9 @@
 	<div class="center">
 		<ChatList />
 	</div>
-	<div class="bottom" />
+	<div class="bottom" >
+		<ChatBoxBottom/>
+	</div>
 </div>
 
 <style>
@@ -45,5 +48,8 @@
 		flex: 0 0 12.8%;
 		width: 100%;
 		background-color: aliceblue;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>
