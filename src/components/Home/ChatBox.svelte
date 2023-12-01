@@ -1,6 +1,6 @@
 <script>
 	import ChatBoxBottom from './ChatBoxBottom.svelte';
-import ChatBoxNav from './ChatBoxNav.svelte';
+	import ChatBoxNav from './ChatBoxNav.svelte';
 	import ChatList from './ChatList.svelte';
 </script>
 
@@ -11,8 +11,8 @@ import ChatBoxNav from './ChatBoxNav.svelte';
 	<div class="center">
 		<ChatList />
 	</div>
-	<div class="bottom" >
-		<ChatBoxBottom/>
+	<div class="bottom">
+		<ChatBoxBottom />
 	</div>
 </div>
 
