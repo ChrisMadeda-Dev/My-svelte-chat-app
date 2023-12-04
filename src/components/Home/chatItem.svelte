@@ -1,3 +1,7 @@
+<script>
+	export let chat;
+</script>
+
 <div class="chat-item">
 	<div class="chat-dp-photo">DP</div>
 
