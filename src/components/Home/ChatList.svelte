@@ -7,11 +7,7 @@
 	import { onAuthStateChanged } from 'firebase/auth';
 
 	let user;
-	let chats = writable([
-		{
-			message: 'Hey God is Good'
-		}
-	]);
+	let chats = writable([]);
 
 	onMount(() => {
 		onAuthStateChanged(auth, (authUser) => {
@@ -31,8 +27,8 @@
 
 			if (snapShot.docs.length > 0) {
 				console.log(snapShot.docs)
-				snapShot.docs.forEach((doc) => {
-					console.log(doc + 'Chats');
+				snapShot.forEach((doc) => {
+					console.log(doc.data().recName + 'Chats');
 					chats.update((chat) => [...chat, doc.data()]);
 					
 				});
@@ -41,6 +37,8 @@
 			}
 		}
 	}
+
+	
 </script>
 
 <div class="chat-list">

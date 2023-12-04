@@ -1,13 +1,17 @@
 <script>
 	export let chat;
+
+	function setChat(senderUid) {
+		console.log(senderUid);
+	}
 </script>
 
-<div class="chat-item">
+<div role="button" tabindex="0" on:keydown={e=>{}} on:click={(e) => setChat(chat.senderUid)} class="chat-item">
 	<div class="chat-dp-photo">DP</div>
 
 	<div class="chat-det">
-		<p>Hey Thanks be to God</p>
-		<span>James</span>
+		<p>{chat.recName}</p>
+		<span>from: {chat.senderName}</span>
 	</div>
 </div>
 
@@ -22,7 +26,7 @@
 		border-radius: 5px;
 	}
 
-	.chat-dp-photo{
+	.chat-dp-photo {
 		flex: 0 0 25%;
 		height: 100%;
 		display: flex;
@@ -30,7 +34,7 @@
 		justify-content: center;
 	}
 
-	.chat-det{
+	.chat-det {
 		flex: 0 0 75%;
 		height: 100%;
 		display: flex;
@@ -41,17 +45,17 @@
 		background-color: aliceblue;
 	}
 
-	.chat-item >.chat-det > p {
+	.chat-item > .chat-det > p {
 		font-size: 14px;
 		color: #353839;
 		font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
 			sans-serif;
 	}
 
-	.chat-item>.chat-det>span{
-		font-size: 13px;
+	.chat-item > .chat-det > span {
+		font-size: 12px;
 		font-family: sans-serif;
 		color: gray;
+		padding: 1px 0px;
 	}
-
 </style>

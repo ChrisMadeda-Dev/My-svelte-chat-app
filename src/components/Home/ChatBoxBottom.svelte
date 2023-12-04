@@ -42,8 +42,8 @@
 				snapShot.forEach((snap) => {
 					const data = snap.data();
 					if (data && user) {
-						const recChatRef = doc(db, `users/${user.uid}/chats/${data.uid}`);
-						const senderChatRef = doc(db, `users/${data.uid}/chats/${user.uid}`);
+						const senderChatRef = doc(db, `users/${user.uid}/chats/${data.uid}`);
+						const recChatRef = doc(db, `users/${data.uid}/chats/${user.uid}`);
 
 						const userName = localStorage.getItem('u-name');
 
