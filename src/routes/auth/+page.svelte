@@ -2,13 +2,16 @@
 	import { auth, db } from '../../lib/firabase/firebase';
 	import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 	import { doc, addDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+	import { onMount } from 'svelte';
 
 	//Check is user is logged in
 
-	onAuthStateChanged(auth, (authUser) => {
-		if (authUser.user) {
-			//window.location.href = '/home';
-		}
+	onMount(() => {
+		onAuthStateChanged(auth, (authUser) => {
+			if (authUser.user) {
+				window.location.href = '/home';
+			}
+		});
 	});
 
 	let name;
@@ -58,8 +61,8 @@
 				.catch((e) => {
 					alert(e);
 				});
-		}else{
-			alert("Error : Check inputs")
+		} else {
+			alert('Error : Check inputs');
 		}
 	}
 </script>
