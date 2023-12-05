@@ -1,7 +1,7 @@
 <script>
 	import MessageCont from './MessageCont.svelte';
 	import { auth, db } from '../../lib/firabase/firebase';
-	import { collection, getDocs } from 'firebase/firestore';
+	import { collection, doc, getDocs, onSnapshot, orderBy, query } from 'firebase/firestore';
 	import { writable } from 'svelte/store';
 	import { onDestroy, onMount } from 'svelte';
 	import { onAuthStateChanged } from 'firebase/auth';
@@ -31,18 +31,19 @@
 	async function getMessages(recUid) {
 		if ((recUid, user)) {
 			const id = recUid;
-            
+			console.log(id);
+
 			//Reset Messages Array
 			messages.update(() => []);
 
 			const messagesRef = collection(db, `users/${user.uid}/chats/${id}/chat`);
-			const docs = await getDocs(messagesRef);
-
-			if (docs) {
+			const q = query(messagesRef, orderBy('createdAt', 'desc'));
+			const unsubscribe = onSnapshot(q, (docs) => {
+				messages.update(() => []);
 				docs.forEach((doc) => {
 					messages.update((msg) => [...msg, doc.data()]);
 				});
-			}
+			});
 		}
 	}
 </script>
@@ -64,5 +65,7 @@
 		align-items: center;
 		gap: 8px;
 		background-color: whitesmoke;
+		overflow-y: auto;
+		overflow-x: hidden;
 	}
 </style>

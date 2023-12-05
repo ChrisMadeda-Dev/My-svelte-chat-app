@@ -80,6 +80,8 @@
 		flex: 0 0 80%;
 		width: 100%;
 		background-color: white;
+		overflow-y: auto;
+		overflow-x: hidden;
 	}
 
 	.bottom {

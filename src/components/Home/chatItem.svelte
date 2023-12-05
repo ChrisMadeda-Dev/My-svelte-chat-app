@@ -22,7 +22,6 @@
 			currentRecUid: chat.recUid
 		});
 
-		console.log($store.currentRecUid)
 	}
 </script>
 

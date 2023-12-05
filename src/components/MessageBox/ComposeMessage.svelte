@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { auth, db } from '../../lib/firabase/firebase';
 	import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+	import { store } from '../../store/Store';
 
 	let user;
 	let messageOut;
@@ -10,8 +11,11 @@
 	let recUid;
 	let recName;
 
+	$: {
+		recUid = $store.currentRecUid;
+	}
+
 	onMount(() => {
-		recUid = localStorage.getItem('rec-uid');
 		recName = localStorage.getItem('rec-name');
 
 		onAuthStateChanged(auth, (authUser) => {
@@ -32,7 +36,7 @@
 				senderName: localStorage.getItem('u-name'),
 				senderUid: user.uid,
 				message: messageOut,
-				time: serverTimestamp()
+				createdAt: serverTimestamp()
 			};
 
 			addDoc(recRef, out);
