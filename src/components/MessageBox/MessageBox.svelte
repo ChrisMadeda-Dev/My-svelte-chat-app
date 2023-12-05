@@ -1,38 +1,42 @@
 <script>
 	import MessageCont from './MessageCont.svelte';
 	import { auth, db } from '../../lib/firabase/firebase';
-	import { collection } from 'firebase/firestore';
+	import { collection, getDocs } from 'firebase/firestore';
+	import { writable } from 'svelte/store';
+	import { onMount } from 'svelte';
+	import { onAuthStateChanged } from 'firebase/auth';
 
-	let messages = [
-		{
-			message: 'Hey God is good',
-			sender: 'left'
-		},
-		{
-			message: 'Hey God is good',
-			sender: 'right'
-		},
-		{
-			message: 'Hey God is good',
-			sender: 'right'
-		},
-		{
-			message: 'Hey God is good',
-			sender: 'left'
-		},
-		{
-			message: 'Hey God is good',
-			sender: 'right'
+	let user;
+	let messages = writable([]);
+
+	let recUid;
+
+	onMount(() => {
+		recUid = localStorage.getItem('rec-uid');
+		onAuthStateChanged(auth, (authUser) => {
+			if (authUser) {
+				user = authUser;
+				getMessages();
+			}
+		});
+	});
+
+	async function getMessages() {
+		const messagesRef = collection(db, `users/${user.uid}/chats/${recUid}/chat`);
+		const docs = await getDocs(messagesRef);
+
+		if (docs) {
+			docs.forEach((doc) => {
+				console.log(doc.data());
+				messages.update((msg) => [...msg, doc.data()]);
+			});
 		}
-	];
-
-    
-
+	}
 </script>
 
 <div class="message-box">
-	{#each messages as msg}
-		<MessageCont message={msg} />
+	{#each $messages as msg}
+		<MessageCont message={msg} {user} />
 	{/each}
 </div>
 

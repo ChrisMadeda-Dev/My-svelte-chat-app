@@ -1,13 +1,16 @@
 <script>
 	export let message;
+	export let user;
 	let side;
 
-	if (message.sender == 'right') {
+	console.log(message.message);
+
+	if (message.senderUid == user.uid) {
 		side = 'messageCont mc-right';
 		console.log(side);
-	}else{
-        side = "messageCont mc-left";
-    }
+	} else {
+		side = 'messageCont mc-left';
+	}
 </script>
 
 <div class={side}>
@@ -21,7 +24,7 @@
 		max-height: auto;
 		margin: 20px;
 		padding: 20px;
-        border-radius: 5px;
+		border-radius: 5px;
 		display: flex;
 		justify-content: center;
 		align-items: flex-start;
@@ -34,6 +37,6 @@
 
 	.mc-right {
 		margin-left: 45%;
-        background-color: lightsteelblue;
+		background-color: lightsteelblue;
 	}
 </style>
