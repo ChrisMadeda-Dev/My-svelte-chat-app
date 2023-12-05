@@ -3,11 +3,8 @@
 	export let user;
 	let side;
 
-	console.log(message.message);
-
 	if (message.senderUid == user.uid) {
 		side = 'messageCont mc-right';
-		console.log(side);
 	} else {
 		side = 'messageCont mc-left';
 	}
@@ -20,15 +17,16 @@
 <style>
 	.messageCont {
 		width: 45%;
-		min-height: 65px;
+		min-height: 55px;
 		max-height: auto;
-		margin: 20px;
+		margin: 7px;
 		padding: 20px;
-		border-radius: 5px;
+		border-radius: 7px;
 		display: flex;
 		justify-content: center;
 		align-items: flex-start;
 		background-color: lavender;
+		font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	}
 
 	.mc-left {

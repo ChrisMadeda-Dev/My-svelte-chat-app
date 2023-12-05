@@ -3,8 +3,10 @@
 	import { auth, db } from '../../lib/firabase/firebase';
 	import { collection, getDocs } from 'firebase/firestore';
 	import { writable } from 'svelte/store';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { onAuthStateChanged } from 'firebase/auth';
+
+	import { store } from '../../store/Store';
 
 	let user;
 	let messages = writable([]);
@@ -21,15 +23,26 @@
 		});
 	});
 
-	async function getMessages() {
-		const messagesRef = collection(db, `users/${user.uid}/chats/${recUid}/chat`);
-		const docs = await getDocs(messagesRef);
+	$: {
+		//Call the function when recUid is changed ie chat is selected
+		getMessages($store.currentRecUid);
+	}
 
-		if (docs) {
-			docs.forEach((doc) => {
-				console.log(doc.data());
-				messages.update((msg) => [...msg, doc.data()]);
-			});
+	async function getMessages(recUid) {
+		if ((recUid, user)) {
+			const id = recUid;
+            
+			//Reset Messages Array
+			messages.update(() => []);
+
+			const messagesRef = collection(db, `users/${user.uid}/chats/${id}/chat`);
+			const docs = await getDocs(messagesRef);
+
+			if (docs) {
+				docs.forEach((doc) => {
+					messages.update((msg) => [...msg, doc.data()]);
+				});
+			}
 		}
 	}
 </script>

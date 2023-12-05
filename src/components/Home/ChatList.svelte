@@ -13,6 +13,7 @@
 		onAuthStateChanged(auth, (authUser) => {
 			if (authUser) {
 				user = authUser;
+				localStorage.removeItem('rec-uid');
 				getChats();
 			}
 		});
@@ -26,9 +27,7 @@
 			const snapShot = await getDocs(chatRef);
 
 			if (snapShot.docs.length > 0) {
-				console.log(snapShot.docs);
 				snapShot.forEach((doc) => {
-					console.log(doc.data().recName + 'Chats');
 					chats.update((chat) => [...chat, doc.data()]);
 				});
 			} else {
@@ -41,7 +40,7 @@
 <div class="chat-list">
 	{#if $chats.length > 0}
 		{#each $chats as chat}
-			<ChatItem {chat} />
+			<ChatItem {chat} {user} />
 		{/each}
 	{:else}
 		<p>Add new chat</p>

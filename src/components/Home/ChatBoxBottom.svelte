@@ -52,7 +52,7 @@
 							recUid: data.uid,
 							senderName: userName,
 							senderUid: user.uid,
-							createAt: serverTimestamp()
+							createdAt: serverTimestamp()
 						};
 
 						const recOut = {

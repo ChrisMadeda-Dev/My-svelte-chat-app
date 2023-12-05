@@ -7,7 +7,6 @@
 	import ComposeMessage from '../MessageBox/ComposeMessage.svelte';
 
 	let user;
-	let messageOut;
 
 	onMount(() => {
 		onAuthStateChanged(auth, (authUser) => {

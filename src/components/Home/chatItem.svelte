@@ -1,11 +1,28 @@
 <script>
+	import { store } from '../../store/Store';
+
 	export let chat;
+	export let user;
+
+	let name;
+	let senderName;
+
+	name = chat.recName;
+
+	if (user.uid == chat.senderUid) {
+		senderName = chat.senderName;
+	}
 
 	function setChat(chat) {
-		console.log(chat.recUid);
 		localStorage.setItem('chat-id', chat.recUid);
 		localStorage.setItem('rec-uid', chat.recUid);
 		localStorage.setItem('rec-name', chat.recName);
+
+		store.set({
+			currentRecUid: chat.recUid
+		});
+
+		console.log($store.currentRecUid)
 	}
 </script>
 
@@ -19,8 +36,8 @@
 	<div class="chat-dp-photo">DP</div>
 
 	<div class="chat-det">
-		<p>{chat.recName}</p>
-		<span>from: {chat.senderName}</span>
+		<p>{name}</p>
+		<span>{'You:Hey'}</span>
 	</div>
 </div>
 
