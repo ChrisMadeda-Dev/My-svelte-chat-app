@@ -1,12 +1,21 @@
 <script>
 	export let chat;
 
-	function setChat(senderUid) {
-		console.log(senderUid);
+	function setChat(chat) {
+		console.log(chat.recUid);
+		localStorage.setItem('chat-id', chat.recUid);
+		localStorage.setItem('rec-uid', chat.recUid);
+		localStorage.setItem('rec-name', chat.recName);
 	}
 </script>
 
-<div role="button" tabindex="0" on:keydown={e=>{}} on:click={(e) => setChat(chat.senderUid)} class="chat-item">
+<div
+	role="button"
+	tabindex="0"
+	on:keydown={(e) => {}}
+	on:click={(e) => setChat(chat)}
+	class="chat-item"
+>
 	<div class="chat-dp-photo">DP</div>
 
 	<div class="chat-det">

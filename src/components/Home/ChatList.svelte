@@ -7,7 +7,7 @@
 	import { onAuthStateChanged } from 'firebase/auth';
 
 	let user;
-	let chats = writable([]);
+	export let chats = writable([]);
 
 	onMount(() => {
 		onAuthStateChanged(auth, (authUser) => {
@@ -26,25 +26,26 @@
 			const snapShot = await getDocs(chatRef);
 
 			if (snapShot.docs.length > 0) {
-				console.log(snapShot.docs)
+				console.log(snapShot.docs);
 				snapShot.forEach((doc) => {
 					console.log(doc.data().recName + 'Chats');
 					chats.update((chat) => [...chat, doc.data()]);
-					
 				});
 			} else {
 				console.log('Error getting chats');
 			}
 		}
 	}
-
-	
 </script>
 
 <div class="chat-list">
-	{#each $chats as chat}
-		<ChatItem {chat} />
-	{/each}
+	{#if $chats.length > 0}
+		{#each $chats as chat}
+			<ChatItem {chat} />
+		{/each}
+	{:else}
+		<p>Add new chat</p>
+	{/if}
 </div>
 
 <style>

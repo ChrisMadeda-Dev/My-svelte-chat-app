@@ -1,9 +1,10 @@
 <script>
 	import MessageBox from '../MessageBox/MessageBox.svelte';
-	import { auth,db } from '../../lib/firabase/firebase';
+	import { auth, db } from '../../lib/firabase/firebase';
 	import { setDoc, addDoc, doc, collection, Timestamp, serverTimestamp } from 'firebase/firestore';
 	import { onMount } from 'svelte';
 	import { onAuthStateChanged } from 'firebase/auth';
+	import ComposeMessage from '../MessageBox/ComposeMessage.svelte';
 
 	let user;
 	let messageOut;
@@ -18,16 +19,6 @@
 		});
 	});
 
-	function addMessage() {
-		if (messageOut != '' && user) {
-            out={
-                name:localStorage.getItem("u-name"),
-                uid:user.uid,
-                message:messageOut,
-                time:serverTimestamp(),
-            }
-		}
-	}
 </script>
 
 <div class="chat-interface">
@@ -42,8 +33,7 @@
 		<MessageBox />
 	</div>
 	<div class="bottom">
-		<input class="input-message" type="text" placeholder="Type Message" />
-		<button class="btn-send">Send</button>
+		<ComposeMessage/>
 	</div>
 </div>
 
@@ -101,21 +91,5 @@
 		align-items: center;
 	}
 
-	.bottom > .input-message {
-		flex: 0 0 60%;
-		height: 50px;
-		padding: 20px;
-		background-color: white;
-		border-radius: 10px;
-		outline: solid 1px;
-	}
-
-	.bottom > .btn-send {
-		flex: 0 0 20%;
-		height: 50px;
-		background-color: steelblue;
-		border-radius: 5px;
-		margin: 0px 15px;
-		color: whitesmoke;
-	}
+	
 </style>
